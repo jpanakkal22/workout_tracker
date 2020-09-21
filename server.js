@@ -4,6 +4,8 @@ const express = require("express");
 const path = require("path");
 // Require mongoose
 const mongoose = require('mongoose');
+// Require models folder
+const db = require('./models');
 
 // Create an instance of express
 const app = express();
@@ -11,7 +13,7 @@ const app = express();
 const port = 3000;
 
 // Open a connection to MongoDB workout database
-await mongoose.connect('mongodb://localhost/workout', {
+mongoose.connect('mongodb://localhost/workout', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
@@ -39,10 +41,28 @@ app.get('/stats', (req, res) => {
 });
 
 // API Routes
-// POST Route for exercise page
-// app.post('/api/workouts', (req, res) => {
-//   res.json(res);
+// GET Route
+app.get('/api/workouts', (req, res) => {
+  db.Workout.find({})
+  .then(data => {
+    res.json(data);
+  })
+})
+// // POST Route for exercise page
+// app.put('/api/workouts/:id', (req, res) => {
+//   const entry = req.params.id;
+//   console.log(req.body);
+   
 // });
+
+app.post('/api/workouts', (req, res) => {
+  db.Workout.create(req.body)
+  .then(data => {
+    res.json(data);
+    console.log('Success!');
+  })
+      
+})
 
 // Listen on port 3000
 app.listen(port, () => {
