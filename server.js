@@ -48,12 +48,14 @@ app.get('/api/workouts', (req, res) => {
     res.json(data);
   })
 })
-// // POST Route for exercise page
-// app.put('/api/workouts/:id', (req, res) => {
-//   const entry = req.params.id;
-//   console.log(req.body);
-   
-// });
+// POST Route for exercise page
+app.put('/api/workouts/:id', (req, res) => {
+  db.Workout.findOneAndUpdate(
+    {id: req.params.id}
+  ).then(workoutData => {
+    res.json(workoutData);
+  })     
+});
 
 app.post('/api/workouts', (req, res) => {
   db.Workout.create(req.body)
