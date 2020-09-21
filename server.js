@@ -51,8 +51,8 @@ app.get('/api/workouts', (req, res) => {
 // POST Route for exercise page
 app.put('/api/workouts/:id', (req, res) => {
   db.Workout.findOneAndUpdate(
-    {id: req.params.id}
-  ).then(workoutData => {
+    {id: req.params.id}, {exercises: req.body}, {new: true})
+    .then(workoutData => {
     res.json(workoutData);
   })     
 });
@@ -62,8 +62,13 @@ app.post('/api/workouts', (req, res) => {
   .then(data => {
     res.json(data);
     console.log('Success!');
+  })      
+});
+
+app.get('/api/workouts/range', (req, res) => {
+  db.Workout.find({}).then(summary => {
+    res.json(summary);
   })
-      
 })
 
 // Listen on port 3000
