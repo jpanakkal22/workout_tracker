@@ -17,10 +17,11 @@ const API = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
+      
     });
-
+    console.log(res.body);
     const json = await res.json();
-
+    
     return json;
   },
   async createWorkout(data = {}) {
@@ -29,7 +30,8 @@ const API = {
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" }
     });
-
+    
+    console.log(data);
     const json = await res.json();
 
     return json;
