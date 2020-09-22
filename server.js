@@ -10,10 +10,10 @@ const db = require('./models');
 // Create an instance of express
 const app = express();
 // Create a port
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Open a connection to MongoDB workout database
-mongoose.connect('mongodb://localhost/workout', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workout', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
@@ -58,6 +58,8 @@ app.put('/api/workouts/:id', (req, res) => {
 });
 
 app.post('/api/workouts', (req, res) => {
+  
+  console.log("hello" + req.body);
   db.Workout.create(req.body)
   .then(data => {
     res.json(data);
@@ -72,6 +74,6 @@ app.get('/api/workouts/range', (req, res) => {
 })
 
 // Listen on port 3000
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+app.listen(PORT, () => {
+  console.log(`App running on port ${PORT}!`);
+});
