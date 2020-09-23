@@ -19,7 +19,16 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Mongoose connection to database
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+mongoose.connect(
+  process.env.MONGODB_URI || 'mongodb://localhost/thawing-caverns',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  }
+);
+
 
 // Require api routes
 require("./routes/api-routes.js")(app);
