@@ -20,7 +20,7 @@ app.use(express.static("public"));
 
 // Mongoose connection to database
 mongoose.connect(
-  process.env.MONGODB_URI || 'mongodb://localhost/thawing-caverns-58828',
+  process.env.MONGODB_URI || 'mongodb://localhost/thawing-caverns',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
