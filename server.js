@@ -1,30 +1,22 @@
-// Require Express 
 const express = require("express");
-// Require path
+const logger = require("morgan");
+const mongoose = require("mongoose");
 const path = require("path");
-// Require mongoose
-const mongoose = require('mongoose');
-// Require morgan
-const morgan = require('morgan');
-// Require models folder
-const db = require('./models');
 
-// Create a port
 const PORT = process.env.PORT || 3000;
 
-// Create an instance of express
+const db = require("./models");
+
 const app = express();
 
-// Open a connection to MongoDB workout database
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workout', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true
-});
+app.use(logger("dev"));
 
-// Serve static files
-app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use(express.static("public"));
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
 // HTML Routes
 // Create a root route and handler 
@@ -71,21 +63,20 @@ app.post('/api/workouts', (req, res) => {
   });      
 });
 
-// // Update Route for exercise page
-// app.put("/api/workouts/:id", (req, res) => {
+// Update Route for exercise page
+app.put("/api/workouts/:id", (req, res) => {
   
-//   db.Workout.findOneAndUpdate(
-//     { id: req.params.id },
-//       {
-//         $push: { exercises: req.body }
-//       },
-//       { new: true }).then(dbWorkout => {
-//         res.json(dbWorkout);
-//       }).catch(err => {
-//         res.json(err);
-//       }); 
-      
-// });
+  db.Workout.findOneAndUpdate({_id: req.params.id}, 
+    {
+      $push: {exercises : req.body}
+    },
+    { new: true })    
+      .then(dbWorkout => {
+        return res.json(dbWorkout);
+      }).catch(err => {
+        res.json(err);
+      });       
+});
 
 app.get('/api/workouts/range', (req, res) => {
   db.Workout.find({}).then(summary => {
@@ -95,7 +86,6 @@ app.get('/api/workouts/range', (req, res) => {
   });
 });
 
-// Listen on port 3000
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
 });
