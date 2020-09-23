@@ -17,7 +17,7 @@ This application uses Node.js, Express, MongoDB, Mongoose and Morgan as well as 
 To pre-populate database, type npm run seed from Node.js command line. Npm install will install the required dependencies from the package.json file. 
 
 ## Usage
-Create new workouts by clicking the Add Exercise button, or continue where you left off by clicking the Continue Workout button. 
+Create new workouts by clicking the New Workout button, or continue where you left off by clicking the Continue Workout button. 
 
 ![Home Page](./img/home.PNG)
 
